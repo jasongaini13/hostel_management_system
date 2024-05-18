@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome Faculty!</h2>
+<p>This is your dashboard.</p>
+<a href="{% url 'home' %}" class="btn btn-dark">Logout</a>
+<a href="{% url 'faculty_profile' %}" class="btn btn-dark">View Profile</a>
+{% endblock %}

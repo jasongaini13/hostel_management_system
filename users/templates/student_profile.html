@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Student Profile</h2>
+<p><strong>Username:</strong> {{ student_profile.user.username }}</p>
+<p><strong>Email:</strong> {{ student_profile.user.email }}</p>
+<p><strong>Fullname:</strong> {{ student_profile.fullname }}</p>
+<p><strong>Address:</strong> {{ student_profile.address }}</p>
+<p><strong>Branch:</strong> {{ student_profile.branch }}</p>
+<p><strong>Year:</strong> {{ student_profile.year }}</p>
+<p><strong>Mobile Number:</strong> {{ student_profile.mobile_no }}</p>
+
+
+<a href="{% url 'update-student-profile' %}" class="btn btn-dark">update profile</a>
+<a href="{% url 'student_dashboard' %}" class="btn btn-dark">back</a>
+{% endblock %}
+
+
+

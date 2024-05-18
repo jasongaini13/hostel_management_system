@@ -1,0 +1,60 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIIT Bhubaneswar - Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="logo">
+                <img src="{% static 'images/home_logo.png' %}" alt="IIIT Bhubaneswar Logo">
+            </div>
+            <form method="POST" action="{% url 'faculty_register' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username:</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <span class="text-danger">{{ form.username.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <span class="text-danger">{{ form.email.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Password:</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <span class="text-danger">{{ form.password1.errors }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Re-Type Password:</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <span class="text-danger">{{ form.password2.errors }}</span>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-dark">Register</button>
+                <br><br>
+                <div class="extra-links">
+                    <a href="{% url 'faculty_login' %}" class="btn btn-default">Login</a>
+                    <a href="{% url 'home' %}" class="btn btn-default">home</a>
+                </div>
+            </form>
+        </div>
+        <div class="image-container">
+            <img src="{% static 'images/register_page.png' %}" alt="IIIT Bhubaneswar">
+        </div>
+    </div>
+</body>
+</html>

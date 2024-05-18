@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Faculty Profile</h2>
+<p><strong>Username:</strong> {{ faculty_profile.user.username }}</p>
+<p><strong>Email:</strong> {{ faculty_profile.email }}</p>
+<p><strong>Fullname:</strong> {{ faculty_profile.fullname }}</p>
+<p><strong>Address:</strong> {{ faculty_profile.address }}</p>
+<p><strong>Mobile Number:</strong> {{ faculty_profile.mobile_no }}</p>
+<p><strong>Short Introduction:</strong> {{ faculty_profile.short_intro }}</p>
+
+
+<a href="{% url 'update-faculty-profile' %}" class="btn btn-dark">update profile</a>
+<a href="{% url 'faculty_dashboard' %}" class="btn btn-dark">back</a>
+{% endblock %}

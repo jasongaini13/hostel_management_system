@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="{% static 'images/home_logo.png' %}" alt="IIIT Bhubaneswar Logo">
+        </div>
+        <ul class="nav-links">
+            
+        </ul>
+    </nav>
+    <main>
+        <div class="background-image">
+            <div class="welcome-text">
+                <h1>IIIT Bhubaneswar</h1><br><br>
+                <h3>All in one place</h3><br>
+                 <a href="{% url 'student_register' %}" class="btn btn-default">Student</a>
+                <a href="{% url 'faculty_register' %}" class="btn btn-default">Faculty</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const main = document.querySelector('main');
+            const backgroundImageUrl = "{% static 'images/HomePageBackgroundImage.jpg' %}";
+            main.style.backgroundImage = `url(${backgroundImageUrl})`;
+        });
+    </script>
+</body>
+</html>

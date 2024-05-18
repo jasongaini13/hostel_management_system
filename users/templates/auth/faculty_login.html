@@ -1,0 +1,28 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<div class="container">
+    <div class="form-container">
+        <div class="logo">
+            <img src="{% static 'images/home_logo.png' %}" alt="IIIT Bhubaneswar Logo">
+        </div>
+        <h2 class="text-muted">Faculty Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-dark">Login</button>
+            <div class="extra-links">
+              <a href="{% url 'student_register' %}" class="btn btn-default">new user</a>
+                <a href="{% url 'home' %}" class="btn btn-default">home</a>
+                <a href="{% url 'reset_password' %}" class="btn btn-default">forgot password</a>
+            </div>
+        </form>
+    </div>
+    <div class="image-container">
+        <img src="{% static 'images/register_page.png' %}" alt="IIIT Bhubaneswar">
+    </div>
+</div>
