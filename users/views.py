@@ -80,7 +80,7 @@ def faculty_profile(request):
     faculty_profile = FacultyProfile.objects.get(user=request.user)
     return render(request, 'faculty_profile.html', {'faculty_profile': faculty_profile})
 
-@login_required
+@login_required(login_url='student_login')
 def update_student_profile(request):
     student_profile = StudentProfile.objects.get(user=request.user)
     if request.method == 'POST':
@@ -113,3 +113,70 @@ def view_student_profile(request):
 def view_faculty_profile(request):
     faculty_profile = FacultyProfile.objects.get(user=request.user)
     return render(request, 'faculty_profile.html', {'profile': faculty_profile})
+def notice_board(request):
+    return render(request,'noticeboard.html')
+
+
+
+
+
+
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.utils import timezone
+from .models import Notice
+from .forms import NoticeForm
+
+@login_required
+def notice_list(request):
+    query = request.GET.get('q')
+    if query:
+        notices = Notice.objects.filter(Q(subject__icontains=query) | Q(posted_by__username__icontains=query)).order_by('-date_posted')
+    else:
+        notices = Notice.objects.all().order_by('-date_posted')
+    return render(request, 'noticeboard.html', {'notices': notices})
+
+@login_required
+def notice_detail(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    return render(request, 'notice_detail.html', {'notice': notice})
+
+@login_required
+def add_notice(request):
+    if request.method == 'POST':
+        form = NoticeForm(request.POST)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.posted_by = request.user
+            notice.date_posted = timezone.now()
+            notice.save()
+            return redirect('notice_board')
+    else:
+        form = NoticeForm()
+    return render(request, 'add_notice.html', {'form': form})
+
+@login_required
+def edit_notice(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    if request.user != notice.posted_by:
+        return redirect('notice_board')  # Prevent unauthorized edits
+    if request.method == 'POST':
+        form = NoticeForm(request.POST, instance=notice)
+        if form.is_valid():
+            form.save()
+            return redirect('notice_board')
+    else:
+        form = NoticeForm(instance=notice)
+    return render(request, 'edit_notice.html', {'form': form})
+
+@login_required
+def delete_notice(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    if request.user != notice.posted_by:
+        return redirect('notice_board')  # Prevent unauthorized deletions
+    if request.method == 'POST':
+        notice.delete()
+        return redirect('notice_board')
+    return render(request, 'delete_notice.html', {'notice': notice})

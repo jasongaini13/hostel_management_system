@@ -61,3 +61,14 @@ class FacultyProfileForm(forms.ModelForm):
     class Meta:
         model = FacultyProfile
         fields = ['user','email','fullname', 'address', 'profile_image', 'short_intro', 'mobile_no']
+
+
+ # forms.py
+from django import forms
+from .models import Notice
+
+class NoticeForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = ['subject', 'message']
+

@@ -26,3 +26,21 @@ class FacultyProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+
+
+
+# models.py
+from django.contrib.auth.models import User
+from django.db import models
+
+class Notice(models.Model):
+    subject = models.CharField(max_length=255)
+    message = models.TextField(null=True)
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject
+

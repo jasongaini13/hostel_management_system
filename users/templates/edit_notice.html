@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Notice</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/notice.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Edit Notice</h1>
+    </header>
+    <main>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update Notice</button>
+        </form>
+        <a href="{% url 'notice_board' %}">Back to Notice Board</a>
+    </main>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Detail</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/notice.css' %}">
+</head>
+<body>
+    <header>
+        <h1>{{ notice.subject }}</h1>
+    </header>
+    <nav>
+        <a href="{% url 'notice_board' %}">Back to Notice Board</a>
+    </nav>
+    <main>
+        <h2>Posted by: {{ notice.posted_by.username }}</h2>
+        <h3>Date: {{ notice.date_posted }}</h3>
+        <p>{{ notice.message }}</p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Notice Board</p>
+    </footer>
+</body>
+</html>

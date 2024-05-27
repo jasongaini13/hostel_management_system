@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Notice</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/notice.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Delete Notice</h1>
+    </header>
+    <main>
+        <p>Are you sure you want to delete the notice titled "{{ notice.subject }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <a href="{% url 'notice_board' %}">Back to Notice Board</a>
+    </main>
+</body>
+</html>
