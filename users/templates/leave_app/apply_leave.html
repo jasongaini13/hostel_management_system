@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/leave_styles.css' %}">
+    <!-- <img class ="leave-bg" src="{% static 'images/Leave_Application.jpg' %}"> -->
+
+    
+    <main>
+        <div class="form-container">
+            <h1>Hostel Leave Application</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-group">
+                    <div>
+                        {{ form.start_date.errors }}
+                        {{ form.start_date }}
+                    </div>
+                    <div>
+                        {{ form.end_date.errors }}
+                        {{ form.end_date }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.reason.errors }}
+                    {{ form.reason }}
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h2>Welcome Faculty!</h2>
-<p>This is your dashboard.</p>
-<a href="{% url 'home' %}" class="btn btn-dark">Logout</a>
-<a href="{% url 'faculty_profile' %}" class="btn btn-dark">View Profile</a>
-{% endblock %}
+{% load static %}
+<body>
+    
+    <main>
+        <div class="background-image">
+            <div class="welcome-text">
+                <h1>Welcome {{ request.user.username|slice:":1"|capfirst }}{{ request.user.username|slice:"1:" }}</h1>
+                <h3>IIIT Bhubaneswar</h3>
+                <a href="notice-board.html" class="notice-board-link">View Notice Board</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const main = document.querySelector('main');
+            const backgroundImageUrl = "{% static 'images/HomePageBackgroundImage.jpg' %}";
+            main.style.backgroundImage = `url(${backgroundImageUrl})`;
+        });
+    </script>
+</body>

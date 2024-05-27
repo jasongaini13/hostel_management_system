@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('../../static/images/Leave_Application.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width:850px;
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 15px;
+}
+
+.form-group input,textarea {
+    background: none;
+    outline: none;
+    flex: 1 1 calc(50% - 20px);
+    padding: 10px;
+    border: 4px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color:#fff;
+    width:375px;
+}
+
+.form-group input[type="date"] {
+    flex: 1 1 calc(50% - 20px);
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background: #333;
+}

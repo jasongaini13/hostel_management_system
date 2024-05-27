@@ -17,6 +17,17 @@ urlpatterns = [
 
     path('update-student-profile/', views.update_student_profile, name='update-student-profile'),
     path('update-faculty-profile/', views.update_faculty_profile, name='update-faculty-profile'),
+    # For leave application
+    path('apply_leave/', views.apply_leave, name='apply_leave'),
+    path('approve_leave/<str:token>/', views.approve_leave, name='approve_leave'),
+    path('deny_leave/<str:token>/', views.deny_leave, name='deny_leave'),
+    path('leave_success/', views.leave_success, name='leave_success'),
+    path('leave_response/', views.leave_response, name='leave_response'),
+    #For doctor appointment
+    path('book-appointment/', views.book_appointment, name='book_appointment'),
+    path('appointment-success/', views.appointment_success, name='appointment_success'),
+    path('appoint-date/<int:appointment_id>/', views.set_appointment_date, name='set_appointment_date'),
+    path('appointment-date-success/', views.appointment_date_success, name='appointment_date_success'),
 ]
 
 

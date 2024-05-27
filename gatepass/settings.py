@@ -124,6 +124,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jasonjason7328@gmail.com'
 EMAIL_HOST_PASSWORD = 'enaf abyc uxlq djmj'
+DEFAULT_FROM_EMAIL = 'chiefwardena@gmail.com'
+SITE_URL = 'http://127.0.0.1:8000/' 
 
 
 # Static files (CSS, JavaScript, Images)

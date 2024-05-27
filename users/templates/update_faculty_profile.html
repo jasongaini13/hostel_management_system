@@ -1,6 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+  body {
+      font-family: Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+  }
+  .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+  }
+  form {
+      display: flex;
+      flex-direction: column;
+  }
+  form p {
+      margin: 10px 0;
+  }
+  input[type="text"], input[type="email"], input[type="file"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+  }
+  button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+      width: 100%;
+  }
+  button[type="submit"]:hover {
+      background-color: #45a049;
+  }
+</style>
   <h2>Update Faculty Profile</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
