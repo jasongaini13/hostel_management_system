@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from users.models import FacultyProfile, StudentProfile
+from users.models import FacultyProfile, StudentProfile, LeaveApplication ,DoctorAppointment
 
 class StudentRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address ending with @iiit-bh.ac.in.')
@@ -55,9 +55,45 @@ class FacultyAuthenticationForm(AuthenticationForm):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['user','email','fullname', 'address', 'profile_image', 'branch', 'year','mobile_no']
+        fields = ['email','fullname', 'address', 'profile_image', 'branch', 'year','mobile_no']
 
 class FacultyProfileForm(forms.ModelForm):
     class Meta:
         model = FacultyProfile
         fields = ['user','email','fullname', 'address', 'profile_image', 'short_intro', 'mobile_no']
+
+
+class LeaveApplicationForm(forms.ModelForm):
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = LeaveApplication
+        fields = ['reason', 'start_date', 'end_date']
+        widgets = {
+            'reason': forms.Textarea(attrs={'placeholder': 'Purpose'}),
+        }
+
+#For Doctor Appointment
+class DoctorAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = DoctorAppointment
+        fields = ['category_of_issue', 'description']
+        widgets = {
+            'category_of_issue': forms.TextInput(attrs={
+                'placeholder': 'Category of Issue',
+                'class': 'form-control'
+            }),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'Description',
+                'class': 'form-control',
+                'rows': 4
+            })
+        }
+class AppointmentDateForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
+    class Meta:
+        model = DoctorAppointment
+        fields = ['date', 'time']

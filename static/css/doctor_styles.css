@@ -1,0 +1,64 @@
+
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: url('../../static/images/DoctorAppointmentImage.jpg') no-repeat center center/cover;
+    background-size: cover;
+}
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.form-container {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    padding: 30px;
+    width: 850px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+    text-align:center;
+    margin-bottom: 20px;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    display:none;
+}
+
+.form-container input[type="text"],.form-container textarea {
+    background:none;
+    outline:none;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 4px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color:#fff;
+    font-size: 14px;
+}
+
+.form-container button {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-container button:hover {
+    background-color: #333;
+}
+.form-control{
+    color:#fff;
+}
