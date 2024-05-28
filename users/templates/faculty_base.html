@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard_styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <nav>
+    <div class="logo">
+        <img src="{% static 'images/home_logo.png' %}" alt="Logo">
+    </div>
+    <ul class="nav-links">
+        <li><a href="{% url 'faculty_dashboard' %}">Home</a></li>
+        <li><a href="#">Announcements</a></li>
+        <li class="dropdown">
+            <a href="#">Amenities</a>
+            <ul class="dropdown-content">
+                <!-- <li class="dropdown">
+                    <a href="#">Student Services</a>
+                    <ul class="dropdown-subcontent">
+                        <li><a href="{% url 'apply_leave' %}">Hostel Leave Application</a></li>
+                        <li><a href="#">Cloak Room Allotment</a></li>
+                    </ul>
+                </li> -->
+                <li class="dropdown">
+                    <a href="#">Visitor Services</a>
+                    <ul class="dropdown-subcontent">
+                        <li><a href="#">Book a Guest Room</a></li>
+                    </ul>
+                </li>
+                <!-- <li class="dropdown">
+                    <a href="#">Health Services</a>
+                    <ul class="dropdown-subcontent">
+                        <li><a href="{% url 'book_appointment' %}">Doctor Appointment</a></li>
+                    </ul>
+                </li> -->
+                <li><a href="#">Mess Services</a></li>
+                <li><a href="#">Laundry Facilities</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Complaints</a></li>
+        <li class="profile dropdown">
+            <a href="#" id="profileDropdown" role="button">
+                <div class="profile-initial">{{ request.user.username|slice:":1"|capfirst }}</div>
+            </a>
+            <ul class="dropdown-content profile-content">
+                <li class="profile-details">
+                    <div class="profile-initial">{{ request.user.username|slice:":1"|capfirst }}</div>
+                    <span class="profile-name">{{ request.user.username|slice:":1"|capfirst }}{{ request.user.username|slice:"1:" }}</span>
+                </li>
+                <li><a href="{% url 'faculty_profile' %}"><i class="fas fa-user-edit"></i> View Profile</a></li>
+                <li><a href="{% url 'home' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="container mt-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
