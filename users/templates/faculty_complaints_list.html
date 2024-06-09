@@ -1,0 +1,64 @@
+{% extends 'faculty_base.html' %}
+{% block content %}
+<div class="container mt-4">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/complaints.css' %}">
+    <h2>All Complaints</h2>
+
+    <!-- Messages block below the header tag and above the search bar -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!-- End of messages block -->
+
+    <!-- Search Bar -->
+    <div class="row mb-3 justify-content-center">
+        <div class="col-md-12">
+            <form method="GET" action="{% url 'faculty_complaints_list' %}" class="form-inline search-bar">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg" name="search_query" placeholder="Search by description or student ID..." value="{{ request.GET.search_query }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student ID</th>
+                <th>Description</th>
+                <th>Date Posted</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ complaint.student_id }}</td>
+                <td>{{ complaint.description }}</td>
+                <td>{{ complaint.date_created }}</td>
+                <td>
+                    <form action="{% url 'delete_complaint' complaint.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

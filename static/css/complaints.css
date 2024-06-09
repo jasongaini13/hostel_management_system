@@ -1,0 +1,126 @@
+.container {
+    margin-top: 4rem; /* Adjust margin-top to ensure space below the navbar */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar .input-group {
+    width: 60%;
+    margin: 0 auto 20px;
+    display: flex;
+}
+
+.search-bar .form-control {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+}
+
+.search-bar .input-group-append .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 0 5px 5px 0;
+    color: white;
+}
+
+.search-bar .input-group-append .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-center .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+.text-center .btn:hover {
+    background-color: #0056b3;
+}
+
+.mb-4 {
+    margin-bottom: 4rem !important;
+}
+
+.mt-4 {
+    margin-top: 4rem !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+/* Styles for Add Complaint form */
+form {
+    margin-top: 20px;
+}
+
+form .form-group {
+    text-align: center;
+}
+
+form .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 10px;
+}
+
+form .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+form input, form textarea, form select {
+    width: 40%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+/* Additional styles for flash messages */
+.alert {
+    margin-top: 20px; /* Adjust this value as needed */
+    text-align: center;
+}

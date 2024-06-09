@@ -1,0 +1,16 @@
+{% extends 'faculty_base.html' %}
+
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
+
+
+        <h1 class="text-center">Add Notice</h1>
+        <form method="post" class="text-center">
+            {% csrf_token %}
+            Subject<div><label for="{{ form.subject.id_for_label }}"></label>{{ form.subject }}</div>
+            message<div><label for="{{ form.message.id_for_label }}"></label>{{ form.message }}</div>
+            <button type="submit" class="btn btn-primary btn-lg">Add Notice</button>
+        </form>
+
+{% endblock %}

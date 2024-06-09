@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
+
+<div class="container mt-4">
+    <h2>Notice Board</h2>
+
+    
+    <!-- <h2 class="text-center">{{ notice.subject }}</h2> -->
+    <!-- <p class="text-center"><strong>Posted By:</strong> {{ notice.posted_by.username }}</p>
+    <p class="text-center"><strong>Date Posted:</strong> {{ notice.date_posted }}</p>
+    <p class="text-center">{{ notice.content }}</p> -->
+    <!-- <a href="{% url 'notice_list' %}" class="btn btn-primary btn-lg d-block mx-auto">Back to Notices</a> -->
+
+
+
+
+    <div class="input-group">
+        <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary btn-lg">Search</button>
+        </div>
+
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>Posted By</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'notice_view' notice.pk %}">{{ notice.subject }}</a></td>
+                <td>{{ notice.posted_by.username }}</td>
+                <td>{{ notice.date_posted }}</td>
+                <td>{{ notice.content }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

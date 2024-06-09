@@ -1,3 +1,4 @@
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -13,6 +14,8 @@ from django.core.mail import send_mail,EmailMessage, EmailMultiAlternatives
 from datetime import datetime, timedelta
 from django.conf import settings
 import uuid
+
+from users import models
 
 def student_register(request):
     if request.method == 'POST':
@@ -367,3 +370,218 @@ def set_appointment_date(request, appointment_id):
     return render(request, 'doctor_appointment/set_appointment_date.html', {'form': form, 'appointment': appointment})
 def appointment_date_success(request):
     return render(request, 'doctor_appointment/appointment_date_success.html')
+
+
+
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.utils import timezone
+from .models import Notice
+from .forms import NoticeForm
+
+@login_required
+def notice_list(request):
+    query = request.GET.get('q')
+    if query:
+        notices = Notice.objects.filter(Q(subject__icontains=query) | Q(posted_by__username__icontains=query)).order_by('-date_posted')
+    else:
+        notices = Notice.objects.all().order_by('-date_posted')
+    return render(request, 'noticeboard.html', {'notices': notices})
+
+@login_required
+def notice_detail(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    return render(request, 'notice_detail.html', {'notice': notice})
+
+@login_required
+def add_notice(request):
+    if request.method == 'POST':
+        form = NoticeForm(request.POST)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.posted_by = request.user
+            notice.date_posted = timezone.now()
+            notice.save()
+            return redirect('notice_list')
+    else:
+        form = NoticeForm()
+    return render(request, 'add_notice.html', {'form': form})
+
+@login_required
+def edit_notice(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    if request.user != notice.posted_by:
+        return redirect('notice_list')  # Prevent unauthorized edits
+    if request.method == 'POST':
+        form = NoticeForm(request.POST, instance=notice)
+        if form.is_valid():
+            form.save()
+            return redirect('notice_list')
+    else:
+        form = NoticeForm(instance=notice)
+    return render(request, 'edit_notice.html', {'form': form})
+
+@login_required
+def delete_notice(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    if request.user != notice.posted_by:
+        return redirect('notice_list')  # Prevent unauthorized deletions
+    if request.method == 'POST':
+        notice.delete()
+        return redirect('notice_list')
+    return render(request, 'delete_notice.html', {'notice': notice})
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Notice
+
+@login_required
+def student_notice_list(request):
+    notices = Notice.objects.all()
+    query = request.GET.get('q')
+    if query:
+        notices = Notice.objects.filter(Q(subject__icontains=query) | Q(posted_by__username__icontains=query)).order_by('-date_posted')
+    else:
+        notices = Notice.objects.all().order_by('-date_posted')
+    return render(request, 'student_noticeboard.html', {'notices': notices})
+
+from django.shortcuts import render, get_object_or_404
+from .models import Notice
+
+def student_notice_detail(request, pk):
+    notice = get_object_or_404(Notice, pk=pk)
+    return render(request, 'student_notice_detail.html', {'notice': notice})
+
+
+
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import ComplaintForm
+from .models import Complaint
+
+@login_required
+def add_complaint(request):
+    if request.method == 'POST':
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            complaint = form.save(commit=False)
+            user = request.user
+            complaint.student_id = user.username
+            complaint.save()
+            return redirect('student_complaints_list')
+    else:
+        form = ComplaintForm()
+    return render(request, 'add_complaint.html', {'form': form})
+
+@login_required
+def student_complaints_list(request):
+    user_id = request.user.username
+    search_query = request.GET.get('search_query', '')
+    complaints = Complaint.objects.filter(student_id=user_id).order_by('-date_created')
+    if search_query:
+        complaints = complaints.filter(description__icontains=search_query) | complaints.filter(student_id__icontains=search_query)
+    return render(request, 'student_complaints_list.html', {'complaints': complaints, 'user_id': user_id})
+
+
+
+
+
+# Add other views for editing and deleting complaints as needed
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.db.models import Q
+from .models import Complaint
+
+def faculty_complaints_list(request):
+    query = request.GET.get('search_query')
+    if query:
+        complaints = Complaint.objects.filter(
+            Q(student_id__icontains=query) |
+            Q(description__icontains=query)
+        )
+    else:
+        complaints = Complaint.objects.all().order_by('-date_created')  # Newest complaints first
+
+    context = {
+        'complaints': complaints,
+    }
+    return render(request, 'faculty_complaints_list.html', context)
+
+
+
+
+
+
+
+# @login_required
+# def edit_complaint(request, complaint_id):
+#     complaint = get_object_or_404(Complaint, id=complaint_id, student=request.user)
+#     if request.method == 'POST':
+#         form = ComplaintForm(request.POST, instance=complaint)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Complaint updated successfully.')
+#             return redirect('student_complaints_list')
+#     else:
+#         form = ComplaintForm(instance=complaint)
+#     return render(request, 'edit_complaint.html', {'form': form})
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Complaint
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Complaint, StudentProfile
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Complaint, StudentProfile
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def delete_complaint(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    try:
+        student_profile = StudentProfile.objects.get(user__username=complaint.student_id)
+        student_email = student_profile.email  # Correct attribute
+    except StudentProfile.DoesNotExist:
+        messages.error(request, 'Student profile not found.')
+        return redirect('faculty_complaints_list')
+
+    complaint_description = complaint.description  # Save description before deletion
+    complaint.delete()
+    messages.success(request, 'Complaint deleted successfully.')
+    
+    send_mail(
+        'Complaint Solved',
+        f'Your complaint "{complaint_description}" has been resolved and deleted by the faculty.',
+        settings.DEFAULT_FROM_EMAIL,
+        [student_email],
+    )
+
+    return redirect('faculty_complaints_list')
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Complaint
+
+def complaint_detail(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    return render(request, 'complaint_detail.html', {'complaint': complaint})

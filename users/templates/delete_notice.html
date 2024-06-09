@@ -1,0 +1,15 @@
+{% extends 'faculty_base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+    <link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
+        <h1 class="text-center">Delete Notice</h1><br><br>
+
+        <p class="text-center">Are you sure you want to delete the notice titled "{{ notice.subject }}"?</p>
+        <form method="post"class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Delete</button>
+        </form>
+        {% endblock %}

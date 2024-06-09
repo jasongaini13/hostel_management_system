@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-3">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/complaints.css' %}">
+        <div class="col-md-12">
+            <form method="GET" action="{% url 'student_complaints_list' %}" class="form-inline search-bar">
+                <div class="input-group">
+                    
+                    <input type="text" class="form-control form-control-lg" name="search_query" placeholder="Search by description or student ID...">
+
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <h2>My Complaints (Student ID: {{ user_id }})</h2>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student ID</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ complaint.student_id }}</td>
+                <td>{{ complaint.description }}</td>
+                <td>{{ complaint.date_created }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center mb-4 mt-4">
+        <a href="{% url 'add_complaint' %}" class="btn btn-primary btn-lg">Add Complaint</a>
+    </div>
+</div>
+{% endblock %}

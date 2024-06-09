@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
+
+<div class="container mt-4">
+    <h2>Notice Board</h2>
+
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'student_notice_list' %}" class="form-inline search-bar d-flex justify-content-center align-items-center">
+        <div class="input-group">
+            <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Notices Table -->
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>Posted By</th>
+                <th>Date</th>
+                <!-- <th>Actions</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for notice in notices %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'student_notice_detail' notice.pk %}">{{ notice.subject }}</a></td>
+                <td>{{ notice.posted_by.username }}</td>
+                <td>{{ notice.date_posted }}</td>
+                <!-- <td><a href="{% url 'notice_view' notice.pk %}" class="btn btn-primary btn-sm">View</a></td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

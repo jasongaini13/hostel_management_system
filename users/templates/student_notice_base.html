@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>Notice Board</h1>
+    </header>
+    <nav>
+        <!-- Student-specific navigation bar -->
+        <a href="{% url 'student_dashboard' %}">Home</a>
+        <!-- <a href="{% url 'student_notice_list' %}">Notices</a> -->
+        <!-- <a href="{% url 'logout' %}">Logout</a> -->
+    </nav>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

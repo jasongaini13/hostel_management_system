@@ -72,6 +72,16 @@ class FacultyProfileForm(forms.ModelForm):
 #         model = Notice
 #         fields = ['subject', 'message']
 
+# forms.py
+from django import forms
+from .models import Complaint, Notice
+
+class NoticeForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = ['subject', 'message']
+
+
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -172,3 +182,17 @@ class AppointmentDateForm(forms.ModelForm):
     class Meta:
         model = DoctorAppointment
         fields = ['date', 'time']
+
+
+from django import forms
+
+class ComplaintForm(forms.ModelForm):
+    class Meta:
+        model = Complaint
+        fields = ['description']
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'small-textarea'}),
+        }
+
+
+

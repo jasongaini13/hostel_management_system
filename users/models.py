@@ -51,3 +51,31 @@ class DoctorAppointment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.category_of_issue}"
+
+
+# models.py
+from django.contrib.auth.models import User
+from django.db import models
+
+class Notice(models.Model):
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject
+
+
+# users/models.py
+from django.db import models
+from django.contrib.auth.models import User
+
+class Complaint(models.Model):
+    student_id = models.CharField(max_length=20)
+    description = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student_id}: {self.description[:20]}..."
+

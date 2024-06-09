@@ -1,0 +1,71 @@
+{% extends 'faculty_base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
+
+<div class="container mt-4">
+    <h2>Notice Board</h2>
+
+    <!-- Messages block -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!-- End of messages block -->
+
+    <!-- Search Bar with Add Notice and Back buttons -->
+    <div class="row mb-3 justify-content-center">
+        <div class="col-md-12">
+            <form method="GET" action="{% url 'notice_list' %}" class="form-inline search-bar d-flex justify-content-center align-items-center">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="button-group ml-3 d-flex align-items-center">
+                        <a href="{% url 'add_notice' %}" class="btn btn-primary btn-lg">Add Notice</a>
+                        <!-- <a href="{% url 'faculty_dashboard' %}" class="btn btn-primary btn-lg ml-2">Back</a> -->
+                    </div>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Subject</th>
+                <th>Posted By</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for notice in notices %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'notice_detail' notice.pk %}">{{ notice.subject }}</a></td>
+                <td>{{ notice.posted_by.username }}</td>
+                <td>{{ notice.date_posted }}</td>
+                <td>
+                    {% if user == notice.posted_by %}
+                    <a href="{% url 'edit_notice' notice.pk %}" class="btn btn-edit-delete btn-lg">Edit</a>
+                    <a href="{% url 'delete_notice' notice.pk %}" class="btn btn-edit-delete btn-lg">Delete</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
