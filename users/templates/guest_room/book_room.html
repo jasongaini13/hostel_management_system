@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/guest_room_styles.css' %}">
+
+<main>
+    <div class="form-container">
+        <h1>Reserve a Room</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.guest_name|add_class:"form-control"|attr:"placeholder:Full Name of Guest" }}
+            </div>
+            <div class="form-group">
+                {{ form.relation|add_class:"form-control"|attr:"placeholder:Your Relation with Him/Her" }}
+            </div>
+            <div class="form-group">
+                {{ form.num_people|add_class:"form-control"|attr:"placeholder:Number of People"}}
+            </div>
+            <div class="form-group">
+                {{ form.check_in_date|add_class:"form-control"|attr:"placeholder:Check-in Date" }}
+            </div>
+            <div class="form-group">
+                {{ form.check_out_date|add_class:"form-control"|attr:"placeholder:Check-out Date" }}
+            </div>
+            <div class="form-group">
+                {{ form.room|add_class:"form-control"|attr:"placeholder:Select a Room" }}
+            </div>
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

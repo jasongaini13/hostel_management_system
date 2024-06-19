@@ -9,14 +9,14 @@
     <h2 class="text-center">Notice Detail</h2>
     
     <header>
-        <h1 class="text-center">{{ notice.subject }}</h1>
+        <h1 class="text-center">{{ notice.subject|capfirst }}</h1>
     </header>
     <br>
     
     <div class="notice-details d-flex justify-content-center">
         <div class="content-container">
             <div class="detail-row">
-                <div class="label text-center">Posted by: {{ notice.posted_by.username }}</div>
+                <div class="label text-center">Posted by: {{ notice.posted_by.username|capfirst }}</div>
                 <div class="value text-center"></div>
             </div>
             <div class="detail-row">

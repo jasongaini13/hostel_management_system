@@ -6,10 +6,10 @@
 
 
         <h1 class="text-center">Add Notice</h1>
-        <form method="post" class="text-center">
+        <form method="post" class="text-center subheading" >
             {% csrf_token %}
             Subject<div><label for="{{ form.subject.id_for_label }}"></label>{{ form.subject }}</div>
-            message<div><label for="{{ form.message.id_for_label }}"></label>{{ form.message }}</div>
+            Message<div><label for="{{ form.message.id_for_label }}"></label>{{ form.message }}</div>
             <button type="submit" class="btn btn-primary btn-lg">Add Notice</button>
         </form>
 

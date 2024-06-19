@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cloak_room_styles.css' %}">
+  <h2 class="text-center">Your Cloak Room Entry</h2>
+  <ul class="text-center">
+    {% for entry in entries %}
+      <li><strong>{{ entry.items }}</strong> placed on <strong>{{ entry.date_time_stored }}</strong></li>
+      <p class="text-center">Please retrieve your luggage after you return to college.</p>
+    {% endfor %}
+  </ul>
+  
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "faculty_base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/manage_room_styles.css' %}">
+<div class="container mt-4">
+  <h2>Manage Rooms</h2>
+  <div class="action-button">
+    <a href="{% url 'add_room' %}" class="btn">Add Room</a>
+  </div>
+  <table class="room-table">
+    <thead>
+      <tr>
+        <th>Room Number</th>
+        <th>Is Available</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for room in rooms %}
+        <tr>
+          <td>{{ room.room_number }}</td>
+          <td>{{ room.is_available|yesno:"Yes,No" }}</td>
+          <td>
+            <form action="{% url 'delete_room' room.id %}" method="post" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

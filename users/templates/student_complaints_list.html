@@ -18,7 +18,7 @@
             </form>
         </div>
     </div>
-    <h2>My Complaints (Student ID: {{ user_id }})</h2>
+    <h2>My Complaints (Student ID: {{ user_id|capfirst }})</h2>
     <table class="table table-striped mt-3">
         <thead>
             <tr>
@@ -32,7 +32,7 @@
             {% for complaint in complaints %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ complaint.student_id }}</td>
+                <td>{{ complaint.student_id|capfirst }}</td>
                 <td>{{ complaint.description }}</td>
                 <td>{{ complaint.date_created }}</td>
             </tr>

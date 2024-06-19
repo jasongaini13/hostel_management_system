@@ -7,12 +7,16 @@ from .forms import (
     StudentRegistrationForm, FacultyRegistrationForm, 
     StudentAuthenticationForm, FacultyAuthenticationForm, 
     StudentProfileForm, FacultyProfileForm , LeaveApplicationForm , 
-    DoctorAppointmentForm ,AppointmentDateForm
+    DoctorAppointmentForm ,AppointmentDateForm,BookingForm,RoomForm,
+    CloakRoomEntryForm,CloakRoomSettingsForm,
 )
-from .models import StudentProfile, FacultyProfile, LeaveApplication ,DoctorAppointment
+from .models import (StudentProfile, FacultyProfile, LeaveApplication ,
+    DoctorAppointment,Room,Booking ,CloakRoomEntry, CloakRoomSettings)
 from django.core.mail import send_mail,EmailMessage, EmailMultiAlternatives
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.utils import timezone
+from django.db import transaction
 import uuid
 
 from users import models
@@ -48,6 +52,7 @@ def student_dashboard(request):
 
 def faculty_dashboard(request):
     return render(request, 'faculty_dashboard.html')
+
 
 def student_login(request):
     if request.method == 'POST':
@@ -200,7 +205,7 @@ from django.utils import timezone
 #         notice.delete()
 #         return redirect('notice_board')
 #     return render(request, 'delete_notice.html', {'notice': notice})
-
+@login_required
 def apply_leave(request):
     if request.method == 'POST':
         form = LeaveApplicationForm(request.POST)
@@ -214,7 +219,7 @@ def apply_leave(request):
     else:
         form = LeaveApplicationForm()
     return render(request, 'leave_app/apply_leave.html', {'form': form})
-
+@login_required
 def send_approval_email(leave_application):
     student_email = "leave_application.student.email"
     approval_url = f'{settings.SITE_URL}/approve_leave/{leave_application.token}/'
@@ -248,7 +253,7 @@ def send_approval_email(leave_application):
     msg = EmailMultiAlternatives(subject, text_content, email_from, recipient_list)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-
+@login_required
 def process_leave_request(request, token, action):
     leave_application = get_object_or_404(LeaveApplication, token=token)
     if action == 'approve':
@@ -261,7 +266,7 @@ def process_leave_request(request, token, action):
         leave_application.save()
         send_response_email(leave_application, 'denied')
     return redirect('leave_response')
-
+@login_required
 def send_response_email(leave_application, status):
     student_email = leave_application.student.email
     subject = 'Leave Application Status'
@@ -290,16 +295,16 @@ def send_response_email(leave_application, status):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-
+@login_required
 def approve_leave(request, token):
     return process_leave_request(request, token, 'approve')
-
+@login_required
 def deny_leave(request, token):
     return process_leave_request(request, token, 'deny')
-
+@login_required
 def leave_success(request):
     return render(request, 'leave_app/leave_success.html')
-
+@login_required
 def leave_response(request):
     return render(request, 'leave_app/leave_response.html')
 
@@ -536,7 +541,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,permission_required
 from .models import Complaint
 
 from django.core.mail import send_mail
@@ -549,7 +554,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Complaint, StudentProfile
+from .models import Complaint, StudentProfile,Room,Booking
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -585,3 +590,178 @@ from .models import Complaint
 def complaint_detail(request, complaint_id):
     complaint = get_object_or_404(Complaint, id=complaint_id)
     return render(request, 'complaint_detail.html', {'complaint': complaint})
+
+# For guest room
+@login_required
+def book_room(request):
+    update_room_availability()
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.student = request.user
+            room = form.cleaned_data['room']
+            room.is_available = False
+            room.save()
+            booking.save()
+            send_confirmation_email(request.user.email, booking)
+            return redirect('booking_confirmation')
+    else:
+        form = BookingForm()
+    return render(request, 'guest_room/book_room.html', {'form': form})
+
+def update_room_availability():
+    bookings = Booking.objects.filter(check_out_date__lt=timezone.now())
+    for booking in bookings:
+        if not booking.room.is_available:
+            booking.room.is_available = True
+            booking.room.save()
+def send_confirmation_email(email, booking):
+    subject = 'Room Booking Confirmation'
+    text_content = (f"Dear {booking.student.username},\n\n"
+               f"Your booking for {booking.guest_name} has been confirmed.\n"
+               f"Room Allotted: {booking.room.room_number}\n"
+               f"Check-in Date: {booking.check_in_date}\n"
+               f"Check-out Date: {booking.check_out_date}\n\n"
+               f"Please pay the charges at the accounts office.\n\n"
+               f"Thank you!")
+
+    html_content=f"""
+                <p>Dear <strong>{booking.student.username}</strong> </p>
+                <p>Your booking for <strong>{booking.guest_name}</strong> has been confirmed.</p>
+                <p>Room Allotted: <strong>{booking.room.room_number}</strong></p>
+                <p>Check-in Date: <strong>{booking.check_in_date}</strong></p>
+                <p>Check-out Date: <strong>{booking.check_out_date}</strong></p>
+                <p>Please pay the charges at the accounts office.</p>
+                <p>Thank You!</p>
+            """
+    email_from = settings.EMAIL_HOST_USER
+
+    msg = EmailMultiAlternatives(subject, text_content, email_from, [email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+def booking_confirmation(request):
+    return render(request,'guest_room/booking_confirmation.html')
+
+@login_required
+# @permission_required('users.can_manage_rooms', raise_exception=True)
+def manage_rooms(request):
+    rooms = Room.objects.all()
+    return render(request, 'guest_room/manage_rooms.html', {'rooms': rooms})
+
+@login_required
+# @permission_required('users.can_manage_rooms', raise_exception=True)
+def add_room(request):
+    if request.method == 'POST':
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Room added successfully.')
+            return redirect('manage_rooms')
+    else:
+        form = RoomForm()
+    return render(request, 'guest_room/add_room.html', {'form': form})
+
+@login_required
+# @permission_required('users.can_manage_rooms', raise_exception=True)
+def delete_room(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    room.delete()
+    messages.success(request, 'Room deleted successfully.')
+    return redirect('manage_rooms')
+
+@login_required
+# @permission_required('users.can_view_bookings', raise_exception=True)
+def view_bookings(request):
+    current_date = timezone.now().date()
+    bookings = Booking.objects.filter(check_out_date__lt=current_date)
+    
+    # Delete bookings whose check-out date has passed
+    for booking in bookings:
+        booking.delete()
+    
+    # Retrieve all remaining bookings after deletion
+    bookings = Booking.objects.all()
+
+    return render(request, 'guest_room/view_bookings.html', {'bookings': bookings})
+
+
+#cloak room allotment
+@login_required
+# @user_passes_test(is_student)
+def add_cloak_room_entry(request):
+    settings = CloakRoomSettings.objects.first()
+    if not settings or not settings.is_enabled:
+        return render(request, 'cloak_room/disabled.html')
+    
+    existing_entry = CloakRoomEntry.objects.filter(student=request.user).first()
+    if existing_entry:
+        # messages.error(request, 'You have already submitted an entry. Please wait until the cloak room is disabled to submit again.')
+        return redirect('view_cloak_room_entry')
+
+
+    if request.method == 'POST':
+        form = CloakRoomEntryForm(request.POST)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.student = request.user
+            entry.save()
+            # messages.success(request, 'Cloak room entry added successfully.')
+            return redirect('view_cloak_room_entry')
+    else:
+        form = CloakRoomEntryForm()
+    return render(request, 'cloak_room/add_cloak_room_entry.html', {'form': form})
+
+@login_required
+# @user_passes_test(is_student)
+def view_cloak_room_entry(request):
+    entries = CloakRoomEntry.objects.filter(student=request.user)
+    return render(request, 'cloak_room/view_cloak_room_entry.html', {'entries': entries})
+
+
+
+@login_required
+def manage_cloak_room_settings(request):
+    settings, created = CloakRoomSettings.objects.get_or_create(id=1)
+    previous_state = settings.is_enabled
+    
+    if request.method == 'POST':
+        form = CloakRoomSettingsForm(request.POST, instance=settings)
+        if form.is_valid():
+            settings = form.save(commit=False)
+            new_state = settings.is_enabled
+            with transaction.atomic():
+                if previous_state == False and new_state == True:
+                    # Delete all existing entries
+                    CloakRoomEntry.objects.all().delete()
+                settings.save()
+            # messages.success(request, 'Cloak room settings updated successfully.')
+            if settings.is_enabled:
+                return redirect('view_all_cloak_room_entries')
+            else:
+                return redirect('manage_cloak_room_settings')
+    else:
+        form = CloakRoomSettingsForm(instance=settings)
+    
+    return render(request, 'cloak_room/manage_cloak_room_settings.html', {'form': form})
+
+@login_required
+# @user_passes_test(is_faculty)
+def view_all_cloak_room_entries(request):
+    query = request.GET.get('q')
+    if query:
+        entries = CloakRoomEntry.objects.filter(Q(student__username__icontains=query)
+                                              | Q(items__icontains=query)
+                                              | Q(date_time_stored__icontains=query))
+    else:
+        entries = CloakRoomEntry.objects.all()
+    return render(request, 'cloak_room/view_all_cloak_room_entries.html', {'entries': entries})
+
+@login_required
+# @user_passes_test(is_faculty)
+def delete_cloak_room_entry(request, entry_id):
+    entry = get_object_or_404(CloakRoomEntry, id=entry_id)
+    entry.delete()
+    # messages.success(request, 'Cloak room entry deleted successfully.')
+    return redirect('view_all_cloak_room_entries')
