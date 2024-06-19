@@ -1,0 +1,36 @@
+{% extends "faculty_base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/view_bookings.css' %}">
+
+<div class="container mt-4">
+    <h2>View Bookings</h2>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Room</th>
+                <th>Guest Name</th>
+                <th>Relation</th>
+                <th>No. of People</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.student.username|capfirst }}</td>
+                <td>{{ booking.room.room_number }}</td>
+                <td>{{ booking.guest_name|capfirst }}</td>
+                <td>{{ booking.relation|capfirst }}</td>
+                <td>{{ booking.num_people }}</td>
+                <td>{{ booking.check_in_date }}</td>
+                <td>{{ booking.check_out_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

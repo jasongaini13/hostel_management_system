@@ -74,7 +74,7 @@ class FacultyProfileForm(forms.ModelForm):
 
 # forms.py
 from django import forms
-from .models import Complaint, Notice
+from .models import Complaint, Notice,Room,Booking
 
 class NoticeForm(forms.ModelForm):
     class Meta:
@@ -87,7 +87,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from users.models import FacultyProfile, StudentProfile, LeaveApplication ,DoctorAppointment
+from users.models import FacultyProfile, StudentProfile, LeaveApplication ,DoctorAppointment,CloakRoomEntry, CloakRoomSettings
 
 class StudentRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address ending with @iiit-bh.ac.in.')
@@ -195,4 +195,38 @@ class ComplaintForm(forms.ModelForm):
         }
 
 
+#guest room allotment
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['guest_name', 'relation', 'num_people', 'check_in_date', 'check_out_date', 'room']
+    
+    check_in_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    check_out_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    room = forms.ModelChoiceField(queryset=Room.objects.filter(is_available=True), empty_label="Select a room")
+    widgets = {
+            'guest_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'relation': forms.TextInput(attrs={'class': 'form-control'}),
+            'num_people': forms.NumberInput(attrs={'class': 'form-control'}),
+            'check_in_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'check_out_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'room': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['room_number', 'is_available']
+
+
+#Cloak Room Form
+class CloakRoomEntryForm(forms.ModelForm):
+    class Meta:
+        model = CloakRoomEntry
+        fields = ['items']
+
+class CloakRoomSettingsForm(forms.ModelForm):
+    class Meta:
+        model = CloakRoomSettings
+        fields = ['is_enabled']
 

@@ -8,6 +8,7 @@
             <div class="welcome-text">
                 <h1>Welcome {{ request.user.username|slice:":1"|capfirst }}{{ request.user.username|slice:"1:" }}</h1>
                 <h3>IIIT Bhubaneswar</h3>
+                <a href="{% url 'notice_list' %}" class="notice-board-link">View Notice Board</a>
             </div>
         </div>
     </main>

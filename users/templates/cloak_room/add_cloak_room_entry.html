@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static  %}
+<link rel="stylesheet" href="{% static 'css/cloak_room_styles.css' %}">
+
+  <h1 class="text-center">Add Cloak Room Entry</h1>
+  <form method="post" class="text-center">
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <strong>Add Your Things</strong><div><label for="{{ form.item_id_for_label }}"></label>{{ form.items }}</div>
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+  </form>
+{% endblock %}
