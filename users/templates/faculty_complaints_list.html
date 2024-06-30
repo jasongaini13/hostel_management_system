@@ -47,8 +47,8 @@
             {% for complaint in complaints %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ complaint.student_id }}</td>
-                <td>{{ complaint.description }}</td>
+                <td>{{ complaint.student_id|capfirst }}</td>
+                <td>{{ complaint.description|capfirst }}</td>
                 <td>{{ complaint.date_created }}</td>
                 <td>
                     <form action="{% url 'delete_complaint' complaint.id %}" method="post" style="display: inline;">

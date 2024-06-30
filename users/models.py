@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.utils import timezone
 
 
 class StudentProfile(models.Model):
@@ -52,8 +52,6 @@ class DoctorAppointment(models.Model):
     def __str__(self):
         return f"{self.student.username} - {self.category_of_issue}"
 
-
-# models.py
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -66,8 +64,6 @@ class Notice(models.Model):
     def __str__(self):
         return self.subject
 
-
-# users/models.py
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -79,3 +75,46 @@ class Complaint(models.Model):
     def __str__(self):
         return f"{self.student_id}: {self.description[:20]}..."
 
+
+#guest room allotment
+class Room(models.Model):
+    room_number = models.CharField(max_length=10)
+    is_available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.room_number
+    class Meta:
+        permissions = [
+            ("can_manage_rooms", "Can manage rooms"),
+        ]
+
+class Booking(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    guest_name = models.CharField(max_length=100)
+    relation = models.CharField(max_length=50)
+    num_people = models.IntegerField()
+    check_in_date = models.DateField()
+    check_out_date = models.DateField()
+
+    def __str__(self):
+        return f"Booking for {self.guest_name} by {self.student.username}"
+    class Meta:
+        permissions = [
+            ("can_view_bookings", "Can view bookings"),
+        ]
+
+#cloak room allotment
+class CloakRoomEntry(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)    #, limit_choices_to={'groups__name': 'Students'}
+    items = models.TextField()
+    date_time_stored = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f'{self.student.username} - {self.items}'
+
+class CloakRoomSettings(models.Model):
+    is_enabled = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return 'Cloak Room Settings'

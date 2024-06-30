@@ -43,7 +43,7 @@
     <table class="table table-striped mt-3">
         <thead>
             <tr>
-                <th>#</th>
+                <th>SI No</th>
                 <th>Subject</th>
                 <th>Posted By</th>
                 <th>Date</th>
@@ -54,8 +54,8 @@
             {% for notice in notices %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{% url 'notice_detail' notice.pk %}">{{ notice.subject }}</a></td>
-                <td>{{ notice.posted_by.username }}</td>
+                <td><a href="{% url 'notice_detail' notice.pk %}">{{ notice.subject|capfirst }}</a></td>
+                <td>{{ notice.posted_by.username|capfirst }}</td>
                 <td>{{ notice.date_posted }}</td>
                 <td>
                     {% if user == notice.posted_by %}

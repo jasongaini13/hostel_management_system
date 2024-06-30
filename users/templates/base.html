@@ -24,13 +24,13 @@
                     <a href="#">Student Services</a>
                     <ul class="dropdown-subcontent">
                         <li><a href="{% url 'apply_leave' %}">Hostel Leave Application</a></li>
-                        <li><a href="#">Cloak Room Allotment</a></li>
+                        <li><a href="{% url 'add_cloak_room_entry' %}">Cloak Room Allotment</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#">Visitor Services</a>
                     <ul class="dropdown-subcontent">
-                        <li><a href="#">Book a Guest Room</a></li>
+                        <li><a href="{% url 'book_room' %}">Book a Guest Room</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -39,8 +39,8 @@
                         <li><a href="{% url 'book_appointment' %}">Doctor Appointment</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Mess Services</a></li>
-                <li><a href="#">Laundry Facilities</a></li>
+                <li><a href="{% url 'mess' %}">Mess Services</a></li>
+                <li><a href="{% url 'laundry' %}">Laundry Facilities</a></li>
             </ul>
         </li>
         <li><a href="{% url 'student_complaints_list' %}">Complaints</a></li>

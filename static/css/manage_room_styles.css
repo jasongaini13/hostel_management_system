@@ -1,0 +1,74 @@
+/* Reset default margins and paddings */
+body, h1, h2, h3, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+    margin: 0;
+    padding: 0;
+}
+h2{
+    text-align: center;
+    margin-bottom: 20px;;
+}
+
+/* Basic styling for the container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style for the action button */
+.action-button {
+    margin-bottom: 20px;
+}
+
+.action-button a.btn {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.action-button a.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the table */
+.room-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.room-table th, .room-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.room-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Style for the inline form */
+.inline-form {
+    display: inline-block;
+    margin: 0;
+}
+
+.inline-form button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.inline-form button:hover {
+    background-color: #0056b3;
+}

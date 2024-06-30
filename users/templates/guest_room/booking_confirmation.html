@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- {% load static %}
+<link rel="stylesheet" href="{% static 'css/guest_room_styles.css' %}"> -->
+<style>
+    .text-center{
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+<div class="text-center">
+    <h2 class="text-center">Booking Confirmation</h2>
+    <p class="text-center">Your guest room booking has been confirmed.</p>
+    <!-- <p><strong>Room Number:</strong> {{ booking.guest_room.room_number }}</p>
+    <p><strong>Check-in Date:</strong> {{ booking.check_in_date }}</p>
+    <p><strong>Check-out Date:</strong> {{ booking.check_out_date }}</p>
+    <p><strong>Guest Name:</strong> {{ booking.guest_name }}</p>
+    <p><strong>Relation:</strong> {{ booking.guest_relation }}</p>
+    <p><strong>Number of People:</strong> {{ booking.number_of_people }}</p> -->
+</div>
+{% endblock %}

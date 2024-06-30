@@ -1,0 +1,207 @@
+.container {
+    margin-top: 4rem; /* Adjust margin-top to ensure space below the navbar */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar .input-group {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.search-bar .form-control {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+}
+
+.search-bar .input-group-append .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 0 5px 5px 0;
+    color: white;
+}
+
+.search-bar .input-group-append .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Align to the right */
+}
+
+.button-group .btn-primary,
+.btn-edit-delete {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    margin-left: 10px; /* Adjust space between buttons */
+    text-decoration: none;
+}
+
+.button-group .btn-primary:hover,
+.btn-edit-delete:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-center .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+.text-center .btn:hover {
+    background-color: #0056b3;
+}
+.mb-4 {
+    margin-bottom: 4rem !important;
+}
+
+.mt-4 {
+    margin-top: 4rem !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+/* Styles for Add Complaint form */
+form {
+    margin-top: 20px;
+}
+
+form .form-group {
+    text-align: center;
+}
+
+form .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 10px;
+}
+
+form .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+form input,
+form textarea,
+form select {
+    width: 40%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+/* Additional styles for flash messages */
+.alert {
+    margin-top: 20px; /* Adjust this value as needed */
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Align to the right */
+    margin-right: 20px; /* Add right margin for spacing */
+}
+
+.button-group .btn-primary,
+.btn-edit-delete {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    margin-left: 10px; /* Adjust space between buttons */
+    text-decoration: none;
+}
+
+.button-group .btn-primary:hover,
+.btn-edit-delete:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Update styling for notice subject link */
+.table a {
+    text-decoration: none;
+    color: black; /* Change link color to black */
+    font-weight: bold; /* Make the link text bold */
+}
+
+/* New styles for notice details alignment */
+.notice-details {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px 20px; /* Adjust the gap between rows and columns */
+    justify-content: center; /* Center the content */
+    text-align: center; /* Ensure the text is centered */
+}
+
+.detail-row {
+    display: contents; /* Use display: contents to allow children to be grid items */
+}
+
+.label {
+    font-weight: bold;
+    text-align: left; /* Align labels to the left */
+}
+
+.value {
+    text-align: left; /* Align values to the left */
+    word-wrap: break-word; /* Ensure long messages wrap correctly */
+    max-width: 600px; /* Optional: limit the maximum width of the value column */
+    margin-left: 20px; /* Ensure a gap between the label and value */
+}

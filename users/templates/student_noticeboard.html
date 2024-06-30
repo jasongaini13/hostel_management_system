@@ -31,8 +31,8 @@
             {% for notice in notices %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{% url 'student_notice_detail' notice.pk %}">{{ notice.subject }}</a></td>
-                <td>{{ notice.posted_by.username }}</td>
+                <td><a href="{% url 'student_notice_detail' notice.pk %}">{{ notice.subject|capfirst }}</a></td>
+                <td>{{ notice.posted_by.username|capfirst }}</td>
                 <td>{{ notice.date_posted }}</td>
                 <!-- <td><a href="{% url 'notice_view' notice.pk %}" class="btn btn-primary btn-sm">View</a></td> -->
             </tr>
