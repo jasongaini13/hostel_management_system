@@ -10,74 +10,78 @@
 </head>
 <body>
 
-  <nav>
+<nav>
     <div class="logo">
         <img src="{% static 'images/home_logo.png' %}" alt="Logo">
     </div>
-    <ul class="nav-links">
-        <li><a href="{% url 'faculty_dashboard' %}">Home</a></li>
-        <li><a href="{% url 'notice_list' %}">Announcements</a></li>
-        <li class="dropdown">
-            <a href="#">Amenities</a>
-            <ul class="dropdown-content">
-                <li class="dropdown">
-                    <a href="#">Student Services</a>
-                    <!-- <ul class="dropdown-subcontent">
-                        <!-- <li><a href="{% url 'apply_leave' %}">Hostel Leave Application</a></li> -->
-                        <!-- <li><a href="{% url 'manage_cloak_room_settings' %}">Cloak Room Allotment</a></li>
-                    </ul> -->
-                    <ul class="dropdown-subcontent">
-                        <li id="cloak-room-link">
-                            {% if settings and settings.is_enabled %}
-                                <a href="{% url 'view_all_cloak_room_entries' %}">Cloak Room Allotment</a>
-                            {% else %}
-                                <a href="{% url 'manage_cloak_room_settings' %}">Cloak Room Allotment</a>
-                            {% endif %}
-                        </li>
-                    </ul>
-                    
-                </li>
-                <li class="dropdown">
-                    <a href="#">Visitor Services</a>
-                    <ul class="dropdown-subcontent">
-                        <li><a href="{% url 'manage_rooms' %}">Manage Rooms</a></li>
-                        <li><a href="{% url 'view_bookings' %}">View Bookings</a></li>
-                    </ul>
-                </li>
-                <!-- <li class="dropdown">
-                    <a href="#">Health Services</a>
-                    <ul class="dropdown-subcontent">
-                        <li><a href="{% url 'book_appointment' %}">Doctor Appointment</a></li>
-                    </ul>
-                </li> -->
-                <li><a href="#">Mess Services</a></li>
-                <li><a href="#">Laundry Facilities</a></li>
-            </ul>
-        </li>
-        <li><a href="{% url 'faculty_complaints_list' %}">Complaints</a></li>
-        <li class="profile dropdown">
-            <a href="#" id="profileDropdown" role="button">
-                <div class="profile-initial">{{ request.user.username|slice:":1"|capfirst }}</div>
-            </a>
-            <ul class="dropdown-content profile-content">
-                <li class="profile-details">
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="list-items">
+        <ul class="nav-links">
+            <li><a href="{% url 'faculty_dashboard' %}">Home</a></li>
+            <li><a href="{% url 'notice_list' %}">Announcements</a></li>
+            <li class="dropdown">
+                <a href="#">Amenities</a>
+                <ul class="dropdown-content">
+                    <li class="dropdown">
+                        <a href="#">Student Services</a>
+                        <ul class="dropdown-subcontent">
+                            <li id="cloak-room-link">
+                                {% if settings and settings.is_enabled %}
+                                    <a href="{% url 'view_all_cloak_room_entries' %}">Cloak Room Allotment</a>
+                                {% else %}
+                                    <a href="{% url 'manage_cloak_room_settings' %}">Cloak Room Allotment</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Visitor Services</a>
+                        <ul class="dropdown-subcontent">
+                            <li><a href="{% url 'manage_rooms' %}">Manage Rooms</a></li>
+                            <li><a href="{% url 'view_bookings' %}">View Bookings</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Mess Services</a></li>
+                    <li><a href="#">Laundry Facilities</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'faculty_complaints_list' %}">Complaints</a></li>
+            <li class="profile dropdown">
+                <a href="#" id="profileDropdown" role="button">
                     <div class="profile-initial">{{ request.user.username|slice:":1"|capfirst }}</div>
-                    <span class="profile-name">{{ request.user.username|slice:":1"|capfirst }}{{ request.user.username|slice:"1:" }}</span>
-                </li>
-                <li><a href="{% url 'faculty_profile' %}"><i class="fas fa-user-edit"></i> View Profile</a></li>
-                <li><a href="{% url 'home' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-        </li>
-    </ul>
+                </a>
+                <ul class="dropdown-content profile-content">
+                    <li class="profile-details">
+                        <div class="profile-initial">{{ request.user.username|slice:":1"|capfirst }}</div>
+                        <span class="profile-name">{{ request.user.username|slice:":1"|capfirst }}{{ request.user.username|slice:"1:" }}</span>
+                    </li>
+                    <li><a href="{% url 'faculty_profile' %}"><i class="fas fa-user-edit"></i> View Profile</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <div class="container mt-4">
     {% block content %}
     {% endblock %}
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById("hamburger-menu").addEventListener("click", function() {
+        var navLinks = document.querySelector(".list-items ul.nav-links");
+        navLinks.classList.toggle("open");
+    });
+
+</script>
 
 </body>
 </html>
