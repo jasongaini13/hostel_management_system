@@ -16,7 +16,7 @@ nav {
     padding: 0 20px;
     width: 100%;
     height: 120px;
-    margin: 0 ;
+    margin: 0;
 }
 
 .logo img {
@@ -68,6 +68,7 @@ nav {
 .dropdown-subcontent {
     min-width: 220px;
 }
+
 .dropdown-content a, .dropdown-subcontent a, .profile-content a {
     padding: 12px 16px;
 }
@@ -141,31 +142,86 @@ nav {
     margin-right: 10px;
 }
 
+/* Hamburger Menu */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger-menu .line {
+    width: 25px;
+    height:4px;
+    background-color: black;
+    border-radius: 5px;
+    margin: 2px 0;
+}
+
 @media (max-width: 768px) {
-    nav {
+    .list-items ul {
         flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        flex-direction: column;
+        position: fixed; /* Changed to fixed to avoid overlapping */
+        top: 120px; /* Adjust as needed based on navbar height */
+        left: 0;
         width: 100%;
+        height: calc(100vh - 10px); /* Full viewport height minus navbar height */
+        background-color: black;
+        color: white;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.5s ease-in-out;
+        z-index: 10;
     }
 
-    .nav-links li {
+    .list-items ul.open {
+        max-height: 85vh; /* Full viewport height */
+    }
+
+    .list-items ul li {
         width: 100%;
-        margin-right: 0;
-    }
-
-    .nav-links a {
         text-align: center;
-        padding: 10px 0;
+        margin-top: 50px;
+    }
+
+    .list-items ul li a {
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .nav-links a:hover {
+        background-color: #333; /* Darker background on hover */
     }
 
     .dropdown-content, .dropdown-subcontent, .profile-content {
         position: relative;
+        background-color: white;
     }
+
+    .profile-initial{
+        background-color: white;
+        color: black;
+        margin-left: 150px;
+    }
+    .hamburger-menu {
+        display: flex;
+        margin-left: 150px;
+    }
+    .logo img {
+        margin-left: 20px;
+    }
+    main {
+        position: relative;
+        z-index: 1; /* Ensure main content is on top of navbar */
+    }
+    .welcome-text h1 {
+        font-size: 50px;
+        font-weight: bold;
+    }
+    
 }
+
+
+
 main {
     position: relative;
     height: calc(100vh - 120px);
@@ -178,7 +234,6 @@ main {
 }
 
 .welcome-text {
-    
     padding: 20px;
     border-radius: 10px;
 }

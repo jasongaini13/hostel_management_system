@@ -18,6 +18,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import transaction
 import uuid
+from django.views.decorators.csrf import csrf_protect
 
 from users import models
 
@@ -34,6 +35,7 @@ def student_register(request):
         form = StudentRegistrationForm()
     return render(request, 'auth/student_register.html', {'form': form})
 
+@csrf_protect
 def faculty_register(request):
     if request.method == 'POST':
         form = FacultyRegistrationForm(request.POST)
@@ -65,6 +67,7 @@ def student_login(request):
         form = StudentAuthenticationForm()
     return render(request, 'auth/student_login.html', {'form': form})
 
+@csrf_protect
 def faculty_login(request):
     if request.method == 'POST':
         form = FacultyAuthenticationForm(request, data=request.POST)
