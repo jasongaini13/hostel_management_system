@@ -1,5 +1,26 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIIT Bhubaneswar Student Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <style>
+        @media (max-width: 768px) {
+            .image-container {
+                display: none !important;
+            }
+
+            .form-container {
+                flex: 1 !important;
+                padding: 20px !important;
+            }
+        }
+    </style>
+</head>
+<body>
 <div class="container">
     <div class="form-container">
         <div class="logo">
@@ -9,12 +30,12 @@
         <form method="POST" action="{% url 'student_login' %}">
             {% csrf_token %}
             <div class="form-group">
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" class="form-control" id="id_username" required>
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                    {{ form.username }}
             </div>
             <div class="form-group">
-                <label for="id_password">Password:</label>
-                <input type="password" name="password" class="form-control" id="id_password" required>
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                    {{ form.password }}
             </div>
             <button type="submit" class="btn btn-dark">Submit</button>
             <div class="extra-links">
@@ -28,4 +49,5 @@
         <img src="{% static 'images/register_page.png' %}" alt="IIIT Bhubaneswar">
     </div>
 </div>
-
+</body>
+</html>

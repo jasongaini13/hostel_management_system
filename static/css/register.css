@@ -1,3 +1,4 @@
+/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -17,6 +18,7 @@ body {
     background-color: #f5f5f5;
 }
 
+/* Main Container */
 .container {
     display: flex;
     width: 100%;
@@ -24,6 +26,7 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Container */
 .form-container {
     flex: 0 0 30%;
     background-color: #ffffff;
@@ -36,10 +39,6 @@ body {
 
 .form-container .logo img {
     width: 150px;
-    margin-bottom: 20px;
-}
-
-h2.text-muted {
     margin-bottom: 20px;
 }
 
@@ -111,6 +110,7 @@ form {
     background-color: #0056b3;
 }
 
+/* Image Container */
 .image-container {
     flex: 0 0 70%;
     height: 100%;

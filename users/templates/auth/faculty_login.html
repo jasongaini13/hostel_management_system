@@ -1,5 +1,25 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIIT Bhubaneswar Faculty Login</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <style>
+        @media (max-width: 768px) {
+            .image-container {
+                display: none !important;
+            }
+
+            .form-container {
+                flex: 1 !important;
+                padding: 20px !important;
+            }
+        }
+    </style>
+</head>
+<body>
 <div class="container">
     <div class="form-container">
         <div class="logo">
@@ -9,14 +29,16 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <input type="text" name="username" class="form-control" id="id_username" placeholder="Username" required>
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                    {{ form.username }}
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
+                <label for="{{ form.password.id_for_label }}">Username:</label>
+                    {{ form.password }}
             </div>
             <button type="submit" class="btn btn-dark">Login</button>
             <div class="extra-links">
-              <a href="{% url 'student_register' %}" class="btn btn-default">New user</a>
+              <a href="{% url 'faculty_register' %}" class="btn btn-default">New user</a>
                 <a href="{% url 'home' %}" class="btn btn-default">Home</a>
                 <a href="{% url 'reset_password' %}" class="btn btn-default">Forgot password?</a>
             </div>

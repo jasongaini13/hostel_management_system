@@ -8,7 +8,7 @@
 
     <!-- Search Bar -->
     <form method="GET" action="{% url 'student_notice_list' %}" class="form-inline search-bar d-flex justify-content-center align-items-center">
-        <div class="input-group">
+        <div class="input-group search-bar-group">
             <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary btn-lg">Search</button>
@@ -24,7 +24,6 @@
                 <th>Subject</th>
                 <th>Posted By</th>
                 <th>Date</th>
-                <!-- <th>Actions</th> -->
             </tr>
         </thead>
         <tbody>
@@ -34,7 +33,6 @@
                 <td><a href="{% url 'student_notice_detail' notice.pk %}">{{ notice.subject|capfirst }}</a></td>
                 <td>{{ notice.posted_by.username|capfirst }}</td>
                 <td>{{ notice.date_posted }}</td>
-                <!-- <td><a href="{% url 'notice_view' notice.pk %}" class="btn btn-primary btn-sm">View</a></td> -->
             </tr>
             {% endfor %}
         </tbody>
