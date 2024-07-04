@@ -11,10 +11,8 @@ html, body {
 
 body {
     font-family: Arial, sans-serif;
-    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
 }
 
 .container {
@@ -69,9 +67,22 @@ h2 {
     text-decoration: none;
     white-space: nowrap; /* Prevent text wrapping */
 }
+.btn-addnotice {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap; /* Prevent text wrapping */
+}
 
 .button-group .btn-primary:hover,
 .btn-edit-delete:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+.btnaddnotice:hover {
     background-color: #0056b3;
     border-color: #0056b3;
 }
@@ -79,6 +90,7 @@ h2 {
 .table {
     width: 100%;
     border-collapse: collapse;
+    overflow-x: auto; /* Enable horizontal scrolling */
 }
 
 .table th,
@@ -120,7 +132,7 @@ h2 {
     margin-top: 3rem !important;
 }
 
-/* Styles for Add Complaint form */
+/* Styles for Add Notice form */
 form {
     margin-top: 20px;
 }
@@ -132,7 +144,7 @@ form .form-group {
 form .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
-    padding: 10px 20px;
+    padding: 8px 16px; /* Smaller padding for smaller screens */
     border-radius: 5px;
     color: white;
     margin-top: 10px;
@@ -170,67 +182,18 @@ form select {
     margin-top: 20px; /* Adjust this value as needed */
     text-align: center;
 }
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
 
-.button-group {
-    display: flex;
-    align-items: center;
-    margin-left: auto; /* Align to the right */
-    margin-right: 20px; /* Add right margin for spacing */
 }
 
-.button-group .btn-primary,
-.btn-edit-delete {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    color: white;
-    margin-left: 10px; /* Adjust space between buttons */
-    text-decoration: none;
-}
 
-.button-group .btn-primary:hover,
-.btn-edit-delete:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-/* Update styling for notice subject link */
-.table a {
-    text-decoration: none;
-    color: black; /* Change link color to black */
-    font-weight: bold; /* Make the link text bold */
-}
-
-/* New styles for notice details alignment */
-.notice-details {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px 20px; /* Adjust the gap between rows and columns */
-    justify-content: center; /* Center the content */
-    text-align: center; /* Ensure the text is centered */
-}
-
-.detail-row {
-    display: contents; /* Use display: contents to allow children to be grid items */
-}
-
-.label {
-    font-weight: bold;
-    text-align: left; /* Align labels to the left */
-}
-
-.value {
-    text-align: left; /* Align values to the left */
-    word-wrap: break-word; /* Ensure long messages wrap correctly */
-    max-width: 600px; /* Optional: limit the maximum width of the value column */
-    margin-left: 20px; /* Ensure a gap between the label and value */
-}
 
 /* Responsive styles */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .search-bar .search-bar-group {
-        width: 80%;
+        width: 60%; /* Adjust width for smaller screens */
     }
 
     .button-group {
@@ -246,11 +209,170 @@ form select {
         width: 100%;
         text-align: center;
     }
+    .btnaddnotice {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 30%;
+        text-align: center;
+    }
+
+    .table {
+        max-width: 100%;
+    }
+    .table-responsive {
+        max-height: 330px;
+        overflow-y: auto;
+    
+    }
+}
+
+@media (max-width: 768px) {
+.search-bar .search-bar-group {
+        width: 100%; /* Adjust width for smallest screens */
+    }
+
+    .button-group .btn-primary {
+        padding: 8px 12px; /* Smaller padding for smallest screens */
+        margin-top: 10px; /* Margin above Add Notice button */
+        display: block; /* Ensure Add Notice button is below the heading */
+    }
+
+    .btn-edit-delete {
+        padding: 5px 10px; /* Smaller padding for smallest screens */
+        font-size: 12px; /* Smaller font size for smallest screens */
+        width: 100%; /* Full width for better visibility */
+        margin: 5px 0; /* Adjust margin to avoid overlap */
+    }
+    .btnaddnotice {
+        padding: 5px 10px; /* Smaller padding for smallest screens */
+        font-size: 12px; /* Smaller font size for smallest screens */
+        width: 20%; /* Full width for better visibility */
+        margin: 5px 0; /* Adjust margin to avoid overlap */
+    }
+
+    .actions-cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table td.actions-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 @media (max-width: 576px) {
     .search-bar .search-bar-group {
-        width: 100%;
+        width: 100%; /* Adjust width for smallest screens */
+    }
+
+    .button-group .btn-primary {
+        padding: 8px 12px; /* Smaller padding for smallest screens */
+        margin-top: 10px; /* Margin above Add Notice button */
+        display: block; /* Ensure Add Notice button is below the heading */
+    }
+
+    .btn-edit-delete {
+        padding: 5px 10px; /* Smaller padding for smallest screens */
+        font-size: 12px; /* Smaller font size for smallest screens */
+        width: 100%; /* Full width for better visibility */
+        margin: 5px 0; /* Adjust margin to avoid overlap */
+    }
+    .btnaddnotice {
+        padding: 5px 10px; /* Smaller padding for smallest screens */
+        font-size: 12px; /* Smaller font size for smallest screens */
+        width: 30%; /* Full width for better visibility */
+        margin: 5px 0; /* Adjust margin to avoid overlap */
+    }
+
+    .actions-cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table td.actions-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 410px) {
+    .search-bar .search-bar-group {
+        width: 100%; /* Adjust width for smallest screens */
+    }
+
+    .button-group .btn-primary {
+        padding: 8px 12px; /* Smaller padding for smallest screens */
+        margin-top: 10px; /* Margin above Add Notice button */
+        display: block; /* Ensure Add Notice button is below the heading */
+    }
+
+    .btn-edit-delete {
+        padding: 5px 10px; /* Smaller padding for smallest screens */
+        font-size: 12px; /* Smaller font size for smallest screens */
+        width: 100%; /* Full width for better visibility */
+        margin: 5px 0; /* Adjust margin to avoid overlap */
+    }
+
+    .actions-cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table th,
+    .table td {
+        padding: 0px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table td.actions-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
+.additional-info {
+    max-height: 200px; /* Set a maximum height for small screens */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+
+}
+
+@media (min-width: 768px) {
+    .additional-info {
+        max-height: none; /* Remove height restriction for larger screens */
+        overflow-y: visible; /* Disable vertical scrolling for larger screens */
+    }
+}
+
+.additional-info {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+    .additional-info {
+        max-height: none;
+        overflow-y: visible;
+    }
+}

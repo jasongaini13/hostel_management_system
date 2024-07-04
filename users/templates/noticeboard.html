@@ -2,9 +2,21 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/noticeboard.css' %}">
-
+<style>
+a {
+    text-decoration: none; /* Remove underline */
+    color: black; /* Set text color to black */
+    font-weight: bold; /* Make text bold */
+}
+</style>
 <div class="container mt-4">
     <h2>Notice Board</h2>
+
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center mt-3">
+        <a href="{% url 'add_notice' %}" class="btn btn-addnotice btn-sm">Add Notice</a>
+    </div>
+    {% endif %}
 
     <!-- Messages block -->
     <div class="row justify-content-center mt-3">
@@ -21,52 +33,43 @@
     <!-- End of messages block -->
 
     <!-- Search Bar with Add Notice and Back buttons -->
-    <div class="row mb-3 justify-content-center">
-        <div class="col-md-12">
-            <form method="GET" action="{% url 'notice_list' %}" class="form-inline search-bar d-flex justify-content-center align-items-center">
-                <div class="input-group search-bar-group">
-                    <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary btn-lg">Search</button>
-                    </div>
-                </div>
-                {% if user.is_authenticated %}
-                <div class="button-group ml-3 d-flex align-items-center">
-                    <a href="{% url 'add_notice' %}" class="btn btn-primary btn-lg">Add Notice</a>
-                    <!-- <a href="{% url 'faculty_dashboard' %}" class="btn btn-primary btn-lg ml-2">Back</a> -->
-                </div>
-                {% endif %}
-            </form>
+    <form method="GET" action="{% url 'notice_list' %}" class="form-inline search-bar d-flex justify-content-center align-items-center">
+        <div class="input-group search-bar-group">
+            <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by subject or posted by" value="{{ request.GET.q }}">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg">Search</button>
+            </div>
         </div>
-    </div>
+    </form>
 
-    <table class="table table-striped mt-3">
-        <thead>
-            <tr>
-                <th>SI No</th>
-                <th>Subject</th>
-                <th>Posted By</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for notice in notices %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{% url 'notice_detail' notice.pk %}">{{ notice.subject|capfirst }}</a></td>
-                <td>{{ notice.posted_by.username|capfirst }}</td>
-                <td>{{ notice.date_posted }}</td>
-                <td class="d-flex flex-column flex-md-row">
-                    {% if user == notice.posted_by %}
-                    <a href="{% url 'edit_notice' notice.pk %}" class="btn btn-edit-delete btn-lg">Edit</a>
-                    <a href="{% url 'delete_notice' notice.pk %}" class="btn btn-edit-delete btn-lg">Delete</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>SI No</th>
+                    <th>Subject</th>
+                    <th>Posted By</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notice in notices %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'notice_detail' notice.pk %}">{{ notice.subject|capfirst }}</a></td>
+                    <td>{{ notice.posted_by.username|capfirst }}</td>
+                    <td>{{ notice.date_posted }}</td>
+                    <td class="actions-cell">
+                        {% if user == notice.posted_by %}
+                        <a href="{% url 'edit_notice' notice.pk %}" class="btn btn-edit-delete btn-sm">Edit</a>
+                        <a href="{% url 'delete_notice' notice.pk %}" class="btn btn-edit-delete btn-sm">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
-

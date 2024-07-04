@@ -124,3 +124,9 @@ form input, form textarea, form select {
     margin-top: 20px; /* Adjust this value as needed */
     text-align: center;
 }
+
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+
+}
