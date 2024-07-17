@@ -55,12 +55,12 @@ class FacultyAuthenticationForm(AuthenticationForm):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['email','fullname', 'address', 'profile_image', 'branch', 'year','mobile_no']
+        fields = ['email','fullname', 'address', 'branch', 'year','mobile_no']
 
 class FacultyProfileForm(forms.ModelForm):
     class Meta:
         model = FacultyProfile
-        fields = ['user','email','fullname', 'address', 'profile_image', 'short_intro', 'mobile_no']
+        fields = ['user','email','fullname', 'address', 'short_intro', 'mobile_no']
 
 
  # forms.py
@@ -140,12 +140,12 @@ class FacultyAuthenticationForm(AuthenticationForm):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['email','fullname', 'address', 'profile_image', 'branch', 'year','mobile_no']
+        fields = ['email','fullname', 'address', 'branch', 'year','mobile_no']
 
 class FacultyProfileForm(forms.ModelForm):
     class Meta:
         model = FacultyProfile
-        fields = ['user','email','fullname', 'address', 'profile_image', 'short_intro', 'mobile_no']
+        fields = ['email','fullname', 'address', 'short_intro', 'mobile_no']
 
 
 class LeaveApplicationForm(forms.ModelForm):
