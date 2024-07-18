@@ -151,7 +151,7 @@ nav {
 
 .hamburger-menu .line {
     width: 25px;
-    height:4px;
+    height: 4px;
     background-color: black;
     border-radius: 5px;
     margin: 2px 0;
@@ -160,11 +160,11 @@ nav {
 @media (max-width: 768px) {
     .list-items ul {
         flex-direction: column;
-        position: fixed; /* Changed to fixed to avoid overlapping */
-        top: 120px; /* Adjust as needed based on navbar height */
+        position: fixed;
+        top: 120px;
         left: 0;
         width: 100%;
-        height: calc(100vh - 10px); /* Full viewport height minus navbar height */
+        height: calc(100vh - 10px);
         background-color: black;
         color: white;
         overflow: hidden;
@@ -174,7 +174,7 @@ nav {
     }
 
     .list-items ul.open {
-        max-height: 85vh; /* Full viewport height */
+        max-height: 70vh;
     }
 
     .list-items ul li {
@@ -189,7 +189,7 @@ nav {
     }
 
     .nav-links a:hover {
-        background-color: #333; /* Darker background on hover */
+        background-color: #333;
     }
 
     .dropdown-content, .dropdown-subcontent, .profile-content {
@@ -197,30 +197,35 @@ nav {
         background-color: white;
     }
 
-    .profile-initial{
+    .profile-initial {
         background-color: white;
         color: black;
         margin-left: 150px;
     }
+
     .hamburger-menu {
         display: flex;
         margin-left: 150px;
     }
+
     .logo img {
         margin-left: 20px;
     }
+
     main {
         position: relative;
-        z-index: 1; /* Ensure main content is on top of navbar */
+        z-index: 1;
     }
+
     .welcome-text h1 {
         font-size: 50px;
         font-weight: bold;
     }
-    
+
+    .list-items.show {
+        display: block;
+    }
 }
-
-
 
 main {
     position: relative;

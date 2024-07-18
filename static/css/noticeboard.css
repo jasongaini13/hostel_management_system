@@ -194,6 +194,7 @@ form select {
 @media (max-width: 992px) {
     .search-bar .search-bar-group {
         width: 60%; /* Adjust width for smaller screens */
+        margin: 5px;
     }
 
     .button-group {

@@ -161,7 +161,7 @@ form select {
 .btn-edit-delete {
     background-color: #007bff;
     border-color: #007bff;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     border-radius: 5px;
     color: white;
     margin-left: 10px; /* Adjust space between buttons */
@@ -204,4 +204,26 @@ form select {
     word-wrap: break-word; /* Ensure long messages wrap correctly */
     max-width: 600px; /* Optional: limit the maximum width of the value column */
     margin-left: 20px; /* Ensure a gap between the label and value */
+}
+
+@media (max-width: 768px) {
+    .search-bar,.input-group{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+    }
+
+    .search-input{
+        width: 100%;
+    }
+
+    .search-btn{
+        width: 100%;
+    }
+
+    .manage-btn{
+        font-size: 12px;
+    }
 }
