@@ -7,7 +7,7 @@ class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(null=True)
     address = models.CharField(max_length=255)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    # profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     fullname = models.CharField(max_length=255)
     branch = models.CharField(max_length=255)  # ForeignKey relationship with Branch
     year = models.CharField(max_length=10)
@@ -20,7 +20,7 @@ class FacultyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField()
     address = models.CharField(max_length=255)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    # profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     fullname = models.CharField(max_length=255)
     mobile_no = models.CharField(max_length=15)
     short_intro = models.TextField()

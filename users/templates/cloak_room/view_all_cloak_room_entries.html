@@ -18,13 +18,13 @@
     <div class="col-md-12">
         <form method="GET" class="form-inline search-bar d-flex justify-content-center align-items-center">
             <div class="input-group">
-                <input type="text" class="form-control form-control-lg" name="q" placeholder="Search by ID or Items" value="{{ request.GET.q }}">
+                <input type="text" class="form-control search-input form-control-lg" name="q" placeholder="Search by ID or Items" value="{{ request.GET.q }}">
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    <button type="submit" class="search-btn btn btn-primary btn-lg">Search</button>
                 </div>
                 {% if user.is_authenticated %}
                 <div class="button-group ml-3 d-flex align-items-center">
-                    <a href="{% url 'manage_cloak_room_settings' %}" class="btn btn-primary btn-lg">Manage Cloak Room Settings</a>
+                    <a href="{% url 'manage_cloak_room_settings' %}" class="manage-btn btn btn-primary btn-lg">Manage Cloak Room Settings</a>
                     <!-- <a href="{% url 'faculty_dashboard' %}" class="btn btn-primary btn-lg ml-2">Back</a> -->
                 </div>
                 {% endif %}
