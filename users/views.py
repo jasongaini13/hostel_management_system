@@ -222,7 +222,6 @@ def apply_leave(request):
     else:
         form = LeaveApplicationForm()
     return render(request, 'leave_app/apply_leave.html', {'form': form})
-@login_required
 def send_approval_email(leave_application):
     student_email = "leave_application.student.email"
     approval_url = f'{settings.SITE_URL}/approve_leave/{leave_application.token}/'
@@ -269,7 +268,6 @@ def process_leave_request(request, token, action):
         leave_application.save()
         send_response_email(leave_application, 'denied')
     return redirect('leave_response')
-@login_required
 def send_response_email(leave_application, status):
     student_email = leave_application.student.email
     subject = 'Leave Application Status'
