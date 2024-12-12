@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h#qa@qcx7!pn#0+a-h^!^dzr5b2zoch%g)gzz-=p%=cso9vgyl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hostel-management-system-l3fu.onrender.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'users.apps.UsersConfig',
     'widget_tweaks',
-    
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -70,7 +69,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'users.context_processors.cloak_room_settings',
             ],
         },
     },
@@ -84,12 +82,8 @@ WSGI_APPLICATION = 'gatepass.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "postgres",
-        'USER':"postgres.axujbwlvgrytzisvlefr",
-        'PASSWORD':"Gaini.Jason13",
-        'HOST':"aws-0-ap-south-1.pooler.supabase.com",
-        'PORT':"6543",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
