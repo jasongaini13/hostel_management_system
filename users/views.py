@@ -141,86 +141,65 @@ def view_student_profile(request):
 def view_faculty_profile(request):
     faculty_profile = FacultyProfile.objects.get(user=request.user)
     return render(request, 'faculty_profile.html', {'profile': faculty_profile})
-# def notice_board(request):
-#     return render(request,'noticeboard.html')
 
-
-
-
-
-
-# views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q,Count
 from django.utils import timezone
-# from .models import Notice
-# from .forms import NoticeForm
+from django.utils.timezone import now
+
+
+def check_monthly_leave_limit(user):
+    """
+    Helper function to check if the user has exceeded the leave limit for the current month.
+    """
+    current_month = now().month
+    current_year = now().year
+
+    leave_count = LeaveApplication.objects.filter(
+        student=user,
+        start_date__month=current_month,
+        start_date__year=current_year
+    ).count()
+
+    return leave_count >= 3  # Maximum of 3 leaves allowed per month
+# @login_required
+def check_overlapping_leaves(user, start_date, end_date):
+    """
+    Helper function to check if a leave overlaps with any existing leave
+    for the given user.
+    """
+    return LeaveApplication.objects.filter(
+        student=user,
+        status__in=['pending', 'approved'],  # Only consider pending or approved leaves
+        start_date__lte=end_date,
+        end_date__gte=start_date
+    ).exists()
 
 # @login_required
-# def notice_list(request):
-#     query = request.GET.get('q')
-#     if query:
-#         notices = Notice.objects.filter(Q(subject__icontains=query) | Q(posted_by__username__icontains=query)).order_by('-date_posted')
-#     else:
-#         notices = Notice.objects.all().order_by('-date_posted')
-#     return render(request, 'noticeboard.html', {'notices': notices})
-
-# @login_required
-# def notice_detail(request, pk):
-#     notice = get_object_or_404(Notice, pk=pk)
-#     return render(request, 'notice_detail.html', {'notice': notice})
-
-# @login_required
-# def add_notice(request):
-#     if request.method == 'POST':
-#         form = NoticeForm(request.POST)
-#         if form.is_valid():
-#             notice = form.save(commit=False)
-#             notice.posted_by = request.user
-#             notice.date_posted = timezone.now()
-#             notice.save()
-#             return redirect('notice_board')
-#     else:
-#         form = NoticeForm()
-#     return render(request, 'add_notice.html', {'form': form})
-
-# @login_required
-# def edit_notice(request, pk):
-#     notice = get_object_or_404(Notice, pk=pk)
-#     if request.user != notice.posted_by:
-#         return redirect('notice_board')  # Prevent unauthorized edits
-#     if request.method == 'POST':
-#         form = NoticeForm(request.POST, instance=notice)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('notice_board')
-#     else:
-#         form = NoticeForm(instance=notice)
-#     return render(request, 'edit_notice.html', {'form': form})
-
-# @login_required
-# def delete_notice(request, pk):
-#     notice = get_object_or_404(Notice, pk=pk)
-#     if request.user != notice.posted_by:
-#         return redirect('notice_board')  # Prevent unauthorized deletions
-#     if request.method == 'POST':
-#         notice.delete()
-#         return redirect('notice_board')
-#     return render(request, 'delete_notice.html', {'notice': notice})
-@login_required
 def apply_leave(request):
     if request.method == 'POST':
         form = LeaveApplicationForm(request.POST)
         if form.is_valid():
-            leave_application = form.save(commit=False)
-            leave_application.student = request.user
-            leave_application.token = str(uuid.uuid4())
-            leave_application.save()
-            send_approval_email(leave_application)
-            return redirect('leave_success')
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            
+            # Check for overlapping leave requests
+            if check_overlapping_leaves(request.user, start_date, end_date):
+                form.add_error(None, "You already have a leave request in this time period.")
+            # Check for monthly leave limit
+            elif check_monthly_leave_limit(request.user):
+                form.add_error(None, "You have already applied for the maximum number of leaves allowed this month (3).")
+            else:
+                leave_application = form.save(commit=False)
+                leave_application.student = request.user
+                leave_application.token = str(uuid.uuid4())
+                leave_application.save()
+                send_approval_email(leave_application)
+                return redirect('leave_success')
     else:
         form = LeaveApplicationForm()
+    
     return render(request, 'leave_app/apply_leave.html', {'form': form})
 def send_approval_email(leave_application):
     student_email = "leave_application.student.email"
@@ -255,7 +234,7 @@ def send_approval_email(leave_application):
     msg = EmailMultiAlternatives(subject, text_content, email_from, recipient_list)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-@login_required
+# @login_required
 def process_leave_request(request, token, action):
     leave_application = get_object_or_404(LeaveApplication, token=token)
     if action == 'approve':
@@ -296,19 +275,18 @@ def send_response_email(leave_application, status):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-@login_required
+# @login_required
 def approve_leave(request, token):
     return process_leave_request(request, token, 'approve')
-@login_required
+# @login_required
 def deny_leave(request, token):
     return process_leave_request(request, token, 'deny')
-@login_required
+# @login_required
 def leave_success(request):
     return render(request, 'leave_app/leave_success.html')
-@login_required
+# @login_required
 def leave_response(request):
     return render(request, 'leave_app/leave_response.html')
-
 
 @login_required
 def book_appointment(request):
